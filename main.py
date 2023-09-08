@@ -2,9 +2,22 @@ import cv2
 import numpy as np
 
 def main():
-    lesson5() 
+    lesson6() 
 
-    #cv2.waitKey(0)
+def lesson6():
+    photo = cv2.imread('images/Screenshot 2023-04-30 205848.png')
+    img = np.zeros(photo.shape[:2], dtype='uint8')
+
+    circle = cv2.circle(img.copy(), (200, 300), 120, 255, cv2.FILLED)
+    square = cv2.rectangle(img.copy(), (25, 25), (250, 350), (123, 234, 122), cv2.FILLED)
+
+    img = cv2.bitwise_and(photo, photo, mask=square)
+    #img = cv2.bitwise_or(circle, square)
+    #img = cv2.bitwise_xor(circle, square)
+    #img = cv2.bitwise_not(circle, square)
+
+    cv2.imshow("Result", img)
+    cv2.waitKey(0)
 
 def lesson5():
     cap = cv2.VideoCapture(0)
