@@ -2,7 +2,27 @@ import cv2
 import numpy as np
 
 def main():
-    lesson7()
+    lesson71()
+
+def lesson71():
+    cap = cv2.VideoCapture(0)
+
+    while True:
+            success, img = cap.read()
+            img = cv2.resize(img, (img.shape[1] * 2, img.shape[0] * 2))
+            img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+
+            faces = cv2.CascadeClassifier('faces.xml')
+            results = faces.detectMultiScale(img_gray, scaleFactor=1.2, minNeighbors=3)
+            
+            for (x, y, w, h) in results:
+                cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), thickness=2)
+
+            cv2.imshow('Result', img)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+  
 
 def lesson7():
     img = cv2.imread('images/people2.jpg')
