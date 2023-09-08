@@ -2,7 +2,20 @@ import cv2
 import numpy as np
 
 def main():
-    lesson6() 
+    lesson7()
+
+def lesson7():
+    img = cv2.imread('images/people2.jpg')
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+    faces = cv2.CascadeClassifier('faces.xml')
+    results = faces.detectMultiScale(gray, scaleFactor=1.2, minNeighbors=3)
+    
+    for (x, y, w, h) in results:
+        cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), thickness=2)
+         
+    cv2.imshow("result", img)
+    cv2.waitKey(0)
 
 def lesson6():
     photo = cv2.imread('images/Screenshot 2023-04-30 205848.png')
