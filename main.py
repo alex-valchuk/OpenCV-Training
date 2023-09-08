@@ -1,9 +1,18 @@
 import cv2
 import numpy as np
 
-
-
 cv2.waitKey(0)
+
+def lesson3():
+    photo = np.zeros((450, 450, 3), dtype='uint8')
+
+    #photo[100:150, 20:280] = 119, 201, 105
+    cv2.rectangle(photo, (0, 0), (100,100), (119, 201, 105), thickness=2)
+    cv2.line(photo, (0, photo.shape[0] // 2), (photo.shape[1], photo.shape[1] // 2), (119, 201, 105), thickness=3)
+    cv2.circle(photo, (photo.shape[1] // 2, photo.shape[0] // 2), 100, (119, 201, 105), thickness=2)
+    cv2.putText(photo, 'Alex', (100, 150), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 0, 0), thickness=1)
+
+    cv2.imshow('Photo', photo)
 
 
 def lesson2():
