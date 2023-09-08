@@ -2,9 +2,28 @@ import cv2
 import numpy as np
 
 def main():
-    lesson4() 
+    lesson5() 
 
-    cv2.waitKey(0)
+    #cv2.waitKey(0)
+
+def lesson5():
+    cap = cv2.VideoCapture(0)
+
+    while True:
+            success, img = cap.read()
+            img = cv2.resize(img, (img.shape[1] * 2, img.shape[0] * 2))
+            img = cv2.GaussianBlur(img, (9, 9), 0)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+            #img = cv2.Canny(img, 30, 30)
+
+            r, g, b = cv2.split(img)
+            img = cv2.merge([b, g, r])
+
+            cv2.imshow('Result', img)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
 
 def lesson4():
     cap = cv2.VideoCapture(0)
