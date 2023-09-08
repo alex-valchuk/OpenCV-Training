@@ -1,7 +1,48 @@
 import cv2
 import numpy as np
 
-cv2.waitKey(0)
+def main():
+    lesson4() 
+
+    cv2.waitKey(0)
+
+def lesson4():
+    cap = cv2.VideoCapture(0)
+
+    while True:
+            success, img = cap.read()
+            img = cv2.resize(img, (img.shape[1] * 2, img.shape[0] * 2))
+            img = cv2.GaussianBlur(img, (9, 9), 0)
+            img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+            img = cv2.Canny(img, 30, 30)
+
+            kernel = np.ones((5, 5), np.uint8)
+            img = cv2.dilate(img, kernel, iterations=1)
+            img = cv2.erode(img, kernel, iterations=1)
+            img = cv2.flip(img, 1)
+            #img = rotate(img, 90)
+            #img = transform(img, 30, 200)
+            new_img = np.zeros(img.shape, dtype='uint8')
+
+            conturs, hierarchy = cv2.findContours(img, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
+
+            cv2.drawContours(new_img, conturs, -1, (230, 111, 148), thickness=1)
+            cv2.imshow('Result', new_img)
+
+            if cv2.waitKey(1) & 0xFF == ord('q'):
+                break
+
+def rotate(img, angle):
+    height, width = img.shape[:2]
+    rotationPoint = (height //2, width // 2)
+
+    matrix = cv2.getRotationMatrix2D(rotationPoint, angle, 1)
+    return cv2.warpAffine(img, matrix, (height, width))
+
+def transform(img, x, y):
+    height, width = img.shape[:2]
+    matrix = np.float32([[1, 0, x], [0, 1, y]])
+    return cv2.warpAffine(img, matrix, (height, width))
 
 def lesson3():
     photo = np.zeros((450, 450, 3), dtype='uint8')
@@ -13,7 +54,6 @@ def lesson3():
     cv2.putText(photo, 'Alex', (100, 150), cv2.FONT_HERSHEY_TRIPLEX, 1, (255, 0, 0), thickness=1)
 
     cv2.imshow('Photo', photo)
-
 
 def lesson2():
     #cap = cv2.VideoCapture('videos/Big_Bqquck_Bunny_1080_10s_30MB.mp4')
@@ -43,3 +83,7 @@ def lesson1():
 
     cv2.imshow('Result', img)
     print(img.shape)
+
+
+main()
+
